@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_070350) do
+ActiveRecord::Schema.define(version: 2021_05_07_072914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "consumers", force: :cascade do |t|
+    t.string "name"
+    t.bigint "order_list_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_list_item_id"], name: "index_consumers_on_order_list_item_id"
+  end
 
   create_table "dormitories", force: :cascade do |t|
     t.integer "school_id"
@@ -47,6 +55,30 @@ ActiveRecord::Schema.define(version: 2021_05_07_070350) do
     t.index ["employee_id"], name: "index_forms_on_employee_id"
   end
 
+  create_table "order_list_items", force: :cascade do |t|
+    t.string "name"
+    t.bigint "product_variant_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_variant_id"], name: "index_order_list_items_on_product_variant_id"
+  end
+
+  create_table "product_variants", force: :cascade do |t|
+    t.string "name"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_variants_on_product_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "product_name"
+    t.bigint "store_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_products_on_store_id"
+  end
+
   create_table "school_admins", force: :cascade do |t|
     t.bigint "school_id", null: false
     t.bigint "user_id", null: false
@@ -62,14 +94,24 @@ ActiveRecord::Schema.define(version: 2021_05_07_070350) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "consumers", "order_list_items"
   add_foreign_key "dormitory_admins", "dormitories"
   add_foreign_key "dormitory_admins", "users"
+  add_foreign_key "order_list_items", "product_variants"
+  add_foreign_key "product_variants", "products"
+  add_foreign_key "products", "stores"
   add_foreign_key "school_admins", "schools"
   add_foreign_key "school_admins", "users"
 end
