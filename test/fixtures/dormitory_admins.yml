@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dormitory: one
+  user: one
+
+two:
+  dormitory: two
+  user: two
