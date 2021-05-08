@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_072914) do
+ActiveRecord::Schema.define(version: 2021_05_07_091627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2021_05_07_072914) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "phone"
     t.index ["dormitory_id"], name: "index_dormitory_admins_on_dormitory_id"
     t.index ["user_id"], name: "index_dormitory_admins_on_user_id"
   end
@@ -84,6 +86,8 @@ ActiveRecord::Schema.define(version: 2021_05_07_072914) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "phone"
     t.index ["school_id"], name: "index_school_admins_on_school_id"
     t.index ["user_id"], name: "index_school_admins_on_user_id"
   end
