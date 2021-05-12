@@ -25,4 +25,26 @@ class Employee < ApplicationRecord
 	def commit_the_object
 		puts "commit the object"
 	end
+
+	# practice_app_development=# explain select * from employees where salary = 50;
+ #                                         QUERY PLAN                                         
+	# --------------------------------------------------------------------------------------------
+	#  Index Scan using index_employees_on_salary on employees  (cost=0.42..8.44 rows=1 width=39)
+	#    Index Cond: (salary = 50)
+	# (2 rows)
+
+	# practice_app_development=# explain select * from employees where salary = 50 and name = 'abhijeet';
+	#                                         QUERY PLAN                                        
+	# ------------------------------------------------------------------------------------------
+	#  Index Scan using index_employees_on_name on employees  (cost=0.42..8.45 rows=1 width=39)
+	#    Index Cond: ((name)::text = 'abhijeet'::text)
+	#    Filter: (salary = 50)
+	# (3 rows)
+
+	# practice_app_development=# explain select * from employees where  name = 'abhijeet';
+	#                                         QUERY PLAN                                        
+	# ------------------------------------------------------------------------------------------
+	#  Index Scan using index_employees_on_name on employees  (cost=0.42..8.44 rows=1 width=39)
+	#    Index Cond: ((name)::text = 'abhijeet'::text)
+
 end
