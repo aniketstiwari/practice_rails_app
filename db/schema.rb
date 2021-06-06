@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_061548) do
+ActiveRecord::Schema.define(version: 2021_06_06_171831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bills", force: :cascade do |t|
+    t.integer "patent_id"
+    t.integer "total_price"
+    t.integer "medicine_fee"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patent_id"], name: "index_bills_on_patent_id"
+  end
 
   create_table "consumers", force: :cascade do |t|
     t.string "name"
@@ -21,6 +30,14 @@ ActiveRecord::Schema.define(version: 2021_05_12_061548) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["order_list_item_id"], name: "index_consumers_on_order_list_item_id"
+  end
+
+  create_table "doctors", force: :cascade do |t|
+    t.string "doctor_name"
+    t.string "specialization"
+    t.bigint "phone_no"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "dormitories", force: :cascade do |t|
@@ -65,6 +82,29 @@ ActiveRecord::Schema.define(version: 2021_05_12_061548) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["product_variant_id"], name: "index_order_list_items_on_product_variant_id"
+  end
+
+  create_table "patient_doctors", force: :cascade do |t|
+    t.bigint "doctor_id", null: false
+    t.bigint "patient_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["doctor_id"], name: "index_patient_doctors_on_doctor_id"
+    t.index ["patient_id"], name: "index_patient_doctors_on_patient_id"
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "patient_name"
+    t.string "patient_problem"
+    t.string "patient_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "product_variants", force: :cascade do |t|
@@ -116,6 +156,8 @@ ActiveRecord::Schema.define(version: 2021_05_12_061548) do
   add_foreign_key "dormitory_admins", "dormitories"
   add_foreign_key "dormitory_admins", "users"
   add_foreign_key "order_list_items", "product_variants"
+  add_foreign_key "patient_doctors", "doctors"
+  add_foreign_key "patient_doctors", "patients"
   add_foreign_key "product_variants", "products"
   add_foreign_key "products", "stores"
   add_foreign_key "school_admins", "schools"
