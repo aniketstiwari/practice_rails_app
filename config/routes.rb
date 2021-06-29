@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :teachers
     #resources :posts
 	root 'employees#index'
 	resources :employees
